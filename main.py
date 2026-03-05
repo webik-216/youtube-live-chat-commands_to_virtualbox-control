@@ -11,7 +11,11 @@ class Youtube2Box:
         config_path = os.path.join(os.getcwd(), "config.json")
         with open(config_path, "r") as f:
             self.config = json.load(f)
-    #virtual machine init part was deleted because all aready preparing VM before go live
+            
+                self.vbox = virtualbox.VirtualBox()
+        self.vm = self.vbox.find_machine(self.config["vm_name"])
+        self.session = self.vm.create_session()
+        
         #Modules
         kb = self.session.console.keyboard
         mouse = self.session.console.mouse
@@ -42,4 +46,5 @@ class Youtube2Box:
 
 if __name__ == "__main__":
     Youtube2Box().run()
+
 
