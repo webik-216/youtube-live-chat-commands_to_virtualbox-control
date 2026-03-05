@@ -1,6 +1,10 @@
 {
-  "vm_name": "Windows10_Stream",
-  "video_id": "YOUR_LIVE_ID",
-  "cooldown_seconds": 5,
-  "mouse_speed": 1.0
+  "vm_name": "Windows10",
+  "video_id": "LIVE_ID",
+  "Cust_plgs": {
+    "!key": ["BadKeyboards", "press"],
+    "!type": ["BadKeyboards", "type"],
+    "!move": ["BadMouses", "move_rel"],
+    "!focus": ["ForegroundStub", "focus"]
+  }
 }
