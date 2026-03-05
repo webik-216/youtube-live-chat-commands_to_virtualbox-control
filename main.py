@@ -6,19 +6,13 @@ from supplies.BadKeyboards import BadKeyboards
 from supplies.BadMouses import BadMouses
 from supplies.ForegroundStub import ForegroundStub
 
-class YoutubeVBoxCore:
+class Youtube2Box:
     def __init__(self):
-        # Load Config from CWD
         config_path = os.path.join(os.getcwd(), "config.json")
         with open(config_path, "r") as f:
             self.config = json.load(f)
-
-        # Init VirtualBox
-        self.vbox = virtualbox.VirtualBox()
-        self.vm = self.vbox.find_machine(self.config["vm_name"])
-        self.session = self.vm.create_session()
-        
-        # Initialize Modules
+    #virtual machine init part was deleted because all aready preparing VM before go live
+        #Modules
         kb = self.session.console.keyboard
         mouse = self.session.console.mouse
         self.modules = {
@@ -26,13 +20,11 @@ class YoutubeVBoxCore:
             "BadMouses": BadMouses(mouse),
             "ForegroundStub": ForegroundStub(kb, mouse)
         }
-
-        # Command Mapping (from JSON)
         self.cmd_map = self.config["Cust_plgs"]
 
     def run(self):
         chat = pytchat.create(video_id=self.config["video_id"])
-        print(f"Core started on VM: {self.config['vm_name']}")
+        print(f"started on VM: {self.config['vm_name']}")
 
         while chat.is_alive():
             for c in chat.get().sync_items():
@@ -41,7 +33,6 @@ class YoutubeVBoxCore:
                 args = parts[1] if len(parts) > 1 else ""
 
                 if cmd in self.cmd_map:
-                    # JSON format: "!key": ["BadKeyboards", "press"]
                     mod_name, method_name = self.cmd_map[cmd]
                     module = self.modules.get(mod_name)
                     if module:
@@ -50,4 +41,5 @@ class YoutubeVBoxCore:
                             func(args)
 
 if __name__ == "__main__":
-    YoutubeVBoxCore().run()
+    Youtube2Box().run()
+
